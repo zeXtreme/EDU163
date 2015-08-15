@@ -155,15 +155,22 @@ a:hover{color:#39a030;}
     background-color: #39a030;
 }
 
-.m-pager a:hover {
+.m-pager .pg:hover {
     color: #fff;
     background-color: #9dd8b1;
 }
 
-.m-pager .selected {
+.m-pager .selected,.m-pager .selected:hover {
     color: #10ae58;
+    background: none;
+    cursor: default;
 }
 
 .m-pager .f-dis {
+    cursor: default;
     background-color: #ddd;
+}
+
+.m-data-lists .f-templete{
+    display: none;
 }

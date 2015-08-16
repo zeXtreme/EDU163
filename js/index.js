@@ -300,7 +300,7 @@ function page(opt){
 /*---------------------------------应用函数开始--------------------------------------------*/    
 
 var url = "http://study.163.com/webDev/couresByCategory.htm";
-var pageSize = 8;
+var pageSize = 20;
 var pageType = 10;
 
 var mnav = document.querySelector('.m-nav');

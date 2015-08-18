@@ -27,6 +27,10 @@ a:hover{color:#39a030;}
 html{
     cursor: default;
 }
+body{
+    padding-bottom: 382px;
+    position: relative;
+}
 .g-flow {
     width: 1205px;
     margin: 0 auto;
@@ -261,13 +265,19 @@ html{
 }
 
 .m-tips {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 36px;
     background-color: #f3f3f3;    
     font-size: 12px;
 }
 
 .g-content {
+    position: relative;
     width: 1202px;
+    height: 36px;
     margin: 0 auto;
 }
 
@@ -281,10 +291,147 @@ html{
 }
 
 .u-notips {
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
     line-height: 36px;
-    width: 63px;
-    text-align: right;
+    padding-left: 15px;
     background: url(images/close.png) no-repeat 0 center;
     cursor: pointer;
+}
+
+.g-header {
+    height: 850px;
+    padding-top: 30px;
+    background-color: #fff;
+}
+
+.m-header {
+    height: 83px;
+}
+
+.m-products {
+    width: 1187px;
+    margin: 0 auto;
+    padding-top: 61px;
+}
+
+.u-product {
+    float: left;
+    width: 239px;
+    padding-left: 100px;
+    background: #fff url(images/round-4.png) no-repeat 0 7px;
+}
+
+.u-product .tt {
+    font-size: 22px;
+}
+
+.u-product .pra {
+    padding: 20px 0 33px;
+    line-height: 24px;
+    color: #666666;    
+}
+
+.f-mr1 {
+    margin-right: 84px;
+}
+
+.m-banner {
+/*
+    position: relative;
+    height: 460px;
+*/
+    position: relative;
+    overflow: hidden;
+}
+
+.m-banner .imgpic {
+    position: relative;
+    top: 0;
+    left: 50%;
+    margin-left: -826px;
+    width: 1652px;
+    height: 460px;
+}
+
+.u-product .more {
+    color: #39a030;
+}
+
+.m-pactures {
+    position: relative;
+    top: 0;
+    left: 50%;
+    width: 1632px;
+    height: 220px;
+    margin-left: -808px;
+    margin-bottom: 81px;
+}
+
+.g-pactures {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.g-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #2c3339;
+}
+
+.m-foot {
+    height: 262px;
+    color: #fff;
+    color: rgba(255, 255, 255, 0.6);    
+    *color: #fff;/*    IE7 hack*/
+}
+
+.m-foot .u-into {
+    float: left;
+    padding: 92px 150px 0 52px;
+    width: 393px;
+}
+
+.u-into .logo {
+    width: 234px;
+    height: 22px;
+    background-color: #39a030
+}
+
+.u-into .txt {
+    padding-top: 28px;
+    line-height: 25px;
+    font-size: 12.5px;
+}
+
+.u-links {
+    float: left;
+    padding-top: 82px;
+    line-height: 29.167px;
+    font-size: 14.58px;
+}
+
+.u-links .link {
+    display: block;
+    color: #fff;
+    color: rgba(255, 255, 255, 0.6);    
+    *color: #fff;/*    IE7 hack*/    
+}
+
+.u-links .tit {
+    font-size: 12.5px;
+}
+
+.f-lk1 {
+    padding-right: 98px;    
+    width: 111px;
+}
+
+.f-lk2 {
+    padding-right: 72px;
+    width: 62px;
 }

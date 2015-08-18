@@ -265,10 +265,12 @@ body{
 }
 
 .m-tips {
+/*
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+*/
     height: 36px;
     background-color: #f3f3f3;    
     font-size: 12px;
@@ -302,12 +304,16 @@ body{
 
 .g-header {
     height: 850px;
-    padding-top: 30px;
+/*    padding-top: 30px;*/
     background-color: #fff;
 }
 
 .m-header {
-    height: 83px;
+    position: relative;
+    height: 95px;
+    width: 1186px;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
 .m-products {
@@ -434,4 +440,110 @@ body{
 .f-lk2 {
     padding-right: 72px;
     width: 62px;
+}
+
+.m-header .logo {
+    width: 234px;
+    height: 22px;
+    text-indent: -9999px;
+    background: #39a030;
+}
+
+.m-header .follow {
+    float: left;
+    display: block;
+    width: 54px;
+    height: 21px;
+    font:400 12px SimSun;
+    line-height: 21px;
+    color: #fff;
+    background-color: #21a557;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.g-fol {    
+    float: left;
+    padding-top: 37px;
+}
+
+.g-logo {    
+    float: left;
+    padding: 36px 31px 0 0;
+}
+
+.m-header .sym {
+    margin-right: 5px;
+}
+
+.m-header .fans {
+    display: inline-block;
+    font-size: 12px;
+    height: 21px;
+    line-height: 21px;
+    font-family: SimSun;
+    color: #666666;
+    padding: 0 14px;
+}
+
+.m-header .links {
+    float: right;
+    padding: 42px 48px 0;
+    font-size: 16px;
+    line-height: 20px;
+    color: #666666;
+}
+
+.m-header .link {
+    padding-left: 55px;
+}
+
+.u-search {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url(images/search.png) no-repeat center center;
+    cursor: pointer;
+}
+
+
+
+.m-header .followed {
+    float: left;
+    width: 106px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    background-color: #f8f8f8;
+    font-family: SimSun;
+    overflow: hidden;
+}
+
+.m-header .txt {
+    font-size: 12px;
+}
+
+.m-header .cal {
+    font-size: 12px;
+    color: #999999;
+}
+
+.m-header .sep {
+    color: #cccccc;
+    font-size: 10px;
+}
+
+.m-header .cal:hover,.u-product .more:hover,.u-links .link:hover{
+    text-decoration: underline;
+}
+
+.m-header .cal:hover{
+    color: #21a557;
+}
+
+.m-header .follow:hover {
+    background-color: #2fb556;
 }

@@ -274,6 +274,7 @@ body{
     height: 36px;
     background-color: #f3f3f3;    
     font-size: 12px;
+    transition: margin-top 0.3s;
 }
 
 .g-content {

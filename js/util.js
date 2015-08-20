@@ -92,7 +92,7 @@ function delegateEvent(element, tag, eventName, listener) {
     	var target = event.target || event.srcElement;
         var parent = isParent(target,tag,element);
     	if (!!parent) {
-    		listener(parent);
+    		listener(parent,event);
     	};
     })
 }

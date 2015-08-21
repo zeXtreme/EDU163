@@ -197,19 +197,18 @@
             </div>
         </div>
     </div>
-    <div class="m-mask">
+    <div class="m-mask" style="display:none;">
         <div class="m-login">
             <form action="./login" class="m-form" name="loginForm" target="result" autocomplete="off" method="get">
               <legend>登录网易云课堂</legend>
               <fieldset>
-                <div class="txt">
-                  <label class="lab" for="telephone">账号</label>
-                  <input class="input" id="telephone" name="telephone" type="tel" class="u-txt" maxlength="11" 
-                         required pattern="^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$">
+                <div class="txt itm1">
+                  <label class="lab" for="account">账号</label>
+                  <input class="u-txt input" id="account" name="account" type="text" autocomplete="off">
                 </div>
                 <div class="txt itm2">
                   <label class="lab" for="password">密码</label>
-                  <input class="input" id="password" name="password" type="password" class="u-txt">
+                  <input class="u-txt input" id="password" name="password" type="password" autocomplete="off">
                 </div>
                 <div class="wrap"><button class="btn" name="loginBtn">登 录</button></div>
                 <span class="closed">X</span>

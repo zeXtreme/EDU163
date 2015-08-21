@@ -592,8 +592,11 @@ body{
     width: 271px;
     height: 16px;
     padding: 14px 10px;
+    color: #444;
+    font-size: 16px;
     background-color: #fafafa;
-    border: 2px solid #f1f1f1;
+    border: 1px solid #f1f1f1;
+    border-bottom: none;
 }
 
 .m-form .lab{
@@ -633,4 +636,8 @@ body{
     text-indent: -9999px;
     background: url(images/closed.png);
     cursor: pointer;
+}
+
+.m-form .j-error{
+    border: 1px solid #ff6666;
 }

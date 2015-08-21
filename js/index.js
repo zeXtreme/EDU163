@@ -230,11 +230,110 @@ var follow_module = (function(){
 
     var follow = document.querySelector('.follow');
     var closeTip = document.querySelector('.u-notips');
+    var loginMask = document.querySelector('.m-mask');
+
+    // 登录模块
+    var login_module = (function(){
+
+        var form = document.forms.loginForm;
+        var itmAccount = document.querySelector('.itm1');
+        var itmPassword = document.querySelector('.itm2');
+        
+        function md5(msg){
+            return msg;
+        }
+    
+        function disableSubmit(disabled){
+            console.log(disabled);
+            form.loginBtn.disabled = !!disabled;
+            var method = !disabled?'remove':'add';
+            form.loginBtn.classList[method]('j-disabled');
+        }
+    
+        function invalidInput(node,msg){
+            node.classList.add('j-error');
+        }
+    
+        function clearInvalid(node){
+            node.classList.remove('j-error');
+        }
+    
+        form.addEventListener(
+            'input',function(event){
+                var target = event.target;
+                var parentTarget = target.parentNode;
+                var lab = parentTarget.querySelector('.lab');
+                lab.style.display = 'none';
+                // 还原错误状态
+                clearInvalid(event.target.parentNode);
+                // 还原登录按钮状态
+                disableSubmit(false);
+            }
+        );
+
+        function blurHandler(event){
+            var target = event.target;
+            var parentTarget = target.parentNode;
+            var lab = parentTarget.querySelector('.lab');
+            if (target.value == ''){
+                lab.style.display = 'block';
+            }
+        }
+
+        form.account.addEventListener('blur',blurHandler);
+
+        form.password.addEventListener('blur',blurHandler);
+    
+        form.addEventListener(
+            'submit',function(event){
+                // 密码验证
+                var input = form.password,
+                    pswd = input.value,
+                    account = form.account.value;
+
+                if (account == ''){
+                    event.preventDefault();
+                    invalidInput(itmAccount);
+                    return;
+                }else if(pswd == ''){
+                    event.preventDefault();
+                    invalidInput(itmPassword);
+                    return;
+                }
+
+                alert(1111);
+
+                input.value = md5(pswd);
+                // 禁用提交按钮
+                disableSubmit(true);
+            }
+        );
+        
+        var frame = document.getElementById('result');
+        frame.addEventListener(
+            'load',function(event){
+                try{
+                    var result = JSON.parse(
+                        frame.contentWindow.document.body.textContent
+                    );
+                    // 还原登录按钮状态
+                    disableSubmit(false);
+                    // 识别登录结果
+                    if (result.code===200){
+                        form.reset();
+                    }
+                }catch(ex){
+                    // ignore
+                }
+            }
+        );
+        
+    })();    
 
     addClickEvent(follow,function(event){
         var cookie = getCookie();
         if (!cookie.login) {
-            login.style.display = 'show';
+            loginMask.style.display = 'block';
         }
         else{
             followsucess = get(followAPI);
@@ -242,6 +341,7 @@ var follow_module = (function(){
               setCookie('followSuc',true,time);
             };
         }
+        event.preventDefault();
     });
 
 })();
@@ -292,7 +392,7 @@ var course_module = (function(){
     }
     //获取课程列表
     function getCourse(now,all){
-        console.log(now);
+        console.log('分页器：'+now);
         
         var options = {pageNo:now,psize:pageSize,type:pageType};
         get(url,options,drawCourse);
@@ -300,7 +400,7 @@ var course_module = (function(){
     //生成课程列表
     function drawCourse(response){
         var data = JSON.parse(response);
-        console.log(data.pagination.pageIndex);
+        console.log('获取的页码：'+data.pagination.pageIndex);
         
         var boo = document.querySelectorAll('.u-cover');
         for(var i=boo.length-1;i>0;i--){

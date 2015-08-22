@@ -238,13 +238,8 @@ var follow_module = (function(){
         var form = document.forms.loginForm;
         var itmAccount = document.querySelector('.itm1');
         var itmPassword = document.querySelector('.itm2');
-        
-        function md5(msg){
-            return msg;
-        }
     
         function disableSubmit(disabled){
-            console.log(disabled);
             form.loginBtn.disabled = !!disabled;
             var method = !disabled?'remove':'add';
             form.loginBtn.classList[method]('j-disabled');
@@ -292,57 +287,78 @@ var follow_module = (function(){
                     account = form.account.value;
 
                 if (account == ''){
-                    event.preventDefault();
+                    // event.preventDefault();
                     invalidInput(itmAccount);
                     return;
                 }else if(pswd == ''){
-                    event.preventDefault();
+                    // event.preventDefault();
                     invalidInput(itmPassword);
                     return;
                 }
 
-                alert(1111);
+                var options = {userName:md5(account),password:md5(pswd)};
+                var url = 'http://study.163.com/webDev/login.htm';
+                console.log(options);
+                function fu(response){
+                    // 还原登录按钮状态
+                    disableSubmit(false);
+                    if (response == 1) {
+                        loginMask.style.display = 'none';
+                        setCookie('loginSuc',1,new Date(9999,9));
+                        followAPI();
+                    }
+                    else{
+                        alert('账号密码错误');
+                    }
+                }
+                get(url,options,fu);
 
-                input.value = md5(pswd);
+                event.preventDefault();
                 // 禁用提交按钮
                 disableSubmit(true);
             }
         );
         
-        var frame = document.getElementById('result');
-        frame.addEventListener(
-            'load',function(event){
-                try{
-                    var result = JSON.parse(
-                        frame.contentWindow.document.body.textContent
-                    );
-                    // 还原登录按钮状态
-                    disableSubmit(false);
-                    // 识别登录结果
-                    if (result.code===200){
-                        form.reset();
-                    }
-                }catch(ex){
-                    // ignore
-                }
-            }
-        );
-        
     })();    
+
+    // followAPI
+    function followAPI(){
+        var url = 'http://study.163.com/webDev/attention.htm';
+        get(url,null,function(response){
+            if (response == 1) {
+                setCookie('followSuc',1,new Date(9999,9));
+                // 重新设置关注按钮
+                setFollowbtn();
+            };
+        })
+    }
+
+    function setFollowbtn(){
+        var cookie = getCookie();
+        var followBtn = document.querySelector('.follow');
+        var followedBtn = document.querySelector('.followed');
+        if (cookie.followSuc == 1) {
+            followBtn.style.display = 'none';
+            followedBtn.style.display = 'block';
+        }
+        else{
+            followBtn.style.display = 'block';
+            followedBtn.style.display = 'none';
+        }
+    }
 
     addClickEvent(follow,function(event){
         var cookie = getCookie();
-        if (!cookie.login) {
+        if (!cookie.loginSuc) {
             loginMask.style.display = 'block';
         }
         else{
-            followsucess = get(followAPI);
-            if (followsucess) {
-              setCookie('followSuc',true,time);
-            };
+            followAPI();
         }
         event.preventDefault();
     });
+
+    setFollowbtn();
 
 })();
 

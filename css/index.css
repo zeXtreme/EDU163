@@ -568,7 +568,7 @@ body{
     background-color: #ffffff;
 }
 
-.m-form legend{
+.m-form .tit{
     padding: 30px 39px 20px;
     color: #444444;
     font-size: 18px;

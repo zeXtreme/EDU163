@@ -12,6 +12,14 @@ if (!('innerText' in document.body)) {
   });
 }   
 
+// preventDefault兼容
+function preventDefault(event){
+    if(event.preventDefault){
+        event.preventDefault();
+    }else{    
+        event.returnValue = false;
+    }
+}
 
 //get请求函数封装
 function get(url,options,callback){
@@ -238,36 +246,44 @@ var follow_module = (function(){
         var form = document.forms.loginForm;
         var itmAccount = document.querySelector('.itm1');
         var itmPassword = document.querySelector('.itm2');
+        var cancelBtn = document.querySelector('.m-form .closed');
+        var accountLab = document.querySelector('.itm1 .lab');
+        var passwordLab = document.querySelector('.itm2 .lab');
     
         function disableSubmit(disabled){
             form.loginBtn.disabled = !!disabled;
-            var method = !disabled?'remove':'add';
-            form.loginBtn.classList[method]('j-disabled');
+            if (!disabled) {
+                removeClass(form.loginBtn,'j-disabled');
+            }
+            else{
+                addClass(form.loginBtn,'j-disabled');
+            }
         }
     
         function invalidInput(node,msg){
-            node.classList.add('j-error');
+            addClass(node,'j-error');
         }
     
         function clearInvalid(node){
-            node.classList.remove('j-error');
+            removeClass(node,'j-error');
         }
     
-        form.addEventListener(
-            'input',function(event){
-                var target = event.target;
+        addEvent(form,'keydown',function(event){
+                var event = event || window.event;
+                var target = event.target || event.srcElement;
                 var parentTarget = target.parentNode;
                 var lab = parentTarget.querySelector('.lab');
                 lab.style.display = 'none';
                 // 还原错误状态
-                clearInvalid(event.target.parentNode);
+                clearInvalid(target.parentNode);
                 // 还原登录按钮状态
                 disableSubmit(false);
             }
         );
 
         function blurHandler(event){
-            var target = event.target;
+            var event = event || window.event;
+            var target = event.target || event.srcElement;
             var parentTarget = target.parentNode;
             var lab = parentTarget.querySelector('.lab');
             if (target.value == ''){
@@ -275,12 +291,11 @@ var follow_module = (function(){
             }
         }
 
-        form.account.addEventListener('blur',blurHandler);
+        addEvent(form.account,'blur',blurHandler);
 
-        form.password.addEventListener('blur',blurHandler);
+        addEvent(form.password,'blur',blurHandler);
     
-        form.addEventListener(
-            'submit',function(event){
+        addEvent(form,'submit',function(event){
                 // 密码验证
                 var input = form.password,
                     pswd = input.value,
@@ -303,6 +318,7 @@ var follow_module = (function(){
                     // 还原登录按钮状态
                     disableSubmit(false);
                     if (response == 1) {
+                        form.reset();
                         loginMask.style.display = 'none';
                         setCookie('loginSuc',1,new Date(9999,9));
                         followAPI();
@@ -313,11 +329,18 @@ var follow_module = (function(){
                 }
                 get(url,options,fu);
 
-                event.preventDefault();
+                preventDefault(event);
                 // 禁用提交按钮
                 disableSubmit(true);
             }
         );
+
+        addClickEvent(cancelBtn,function(){
+            form.reset();
+            accountLab.style.display = 'block';
+            passwordLab.style.display = 'block';
+            loginMask.style.display = 'none';
+        });
         
     })();    
 
@@ -348,6 +371,7 @@ var follow_module = (function(){
     }
 
     addClickEvent(follow,function(event){
+        var event = event || window.event;
         var cookie = getCookie();
         if (!cookie.loginSuc) {
             loginMask.style.display = 'block';
@@ -355,7 +379,9 @@ var follow_module = (function(){
         else{
             followAPI();
         }
-        event.preventDefault();
+        
+        preventDefault(event);
+        
     });
 
     setFollowbtn();
@@ -446,4 +472,4 @@ var course_module = (function(){
 
 })();
 
-//})();
+// })();

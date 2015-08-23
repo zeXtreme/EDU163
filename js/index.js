@@ -441,7 +441,7 @@ var follow_module = (function(){
 
 /*轮播模块*/
 var slide_module = (function(){
-    
+
     window.onload = function(){
         var oDiv = document.querySelector('.m-banner');
         var oUl = oDiv.getElementsByTagName('ul')[1];
@@ -583,6 +583,50 @@ var course_module = (function(){
     }
 
     getPageNum(1);    
+
+})();
+
+/*热门推荐及滚动模块*/
+var top_module = (function(){
+
+    var url = 'http://study.163.com/webDev/hotcouresByCategory.htm';
+
+    var oUl = document.querySelector('.m-toplit');
+    var aLi = oUl.getElementsByTagName('li');
+
+    //获取热门排行课程数据
+    get(url,null,initTop);
+
+    //初始化热门课程列表
+    function initTop(response,now){
+        var list = JSON.parse(response);
+        console.log(list);
+
+        var templete = document.querySelector('.m-toplit .f-templete');
+            
+        for(var i=0;i<list.length;i++){       
+            var cloned = templete.cloneNode(true);
+            removeClass(cloned,'f-templete');
+            var imgpic = cloned.querySelector('.imgpic');
+            var title = cloned.querySelector('.tt');
+            
+            imgpic.src = list[i].smallPhotoUrl;
+            imgpic.alt = list[i].name;
+            title.innerText = list[i].name;       
+            templete.parentNode.appendChild(cloned);
+        }
+
+        setInterval(scroll,5000);
+
+        function scroll(){
+            var oLi = aLi[20].cloneNode(true);
+            oUl.insertBefore(oLi,aLi[1]);
+            startMove(oUl,{bottom:-990},function(){
+                oUl.removeChild(aLi[21]);
+                oUl.style.bottom = '-900px';
+            });
+        }
+    }    
 
 })();
 

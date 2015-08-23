@@ -102,6 +102,57 @@ function removeCookie(name, path, domain) {
     document.cookie = 'name=' + name + '; path=' + path + '; domain=' + domain + '; max-age=0';
 }
 
+/*运动模块，参考妙味课堂的写法*/
+function startMove(obj, json, fn) {
+    clearInterval(obj.iTimer);
+    var iCur = 0;
+    var iSpeed = 0;
+        
+    obj.iTimer = setInterval(function() {
+        
+        var iBtn = true;
+                    
+        for ( var attr in json ) {
+                            
+            var iTarget = json[attr];
+            
+            if (attr == 'opacity') {
+                iCur = Math.round(css( obj, 'opacity' ) * 100);
+            } else {
+                iCur = parseInt(css(obj, attr));
+            }
+            
+            iSpeed = ( iTarget - iCur ) / 8;
+            iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+            
+            if (iCur != iTarget) {
+                iBtn = false;
+                if (attr == 'opacity') {
+                    obj.style.opacity = (iCur + iSpeed) / 100;
+                    obj.style.filter = 'alpha(opacity='+ (iCur + iSpeed) +')';
+                } else {
+                    obj.style[attr] = iCur + iSpeed + 'px';
+                }
+            }
+            
+        }
+        
+        if (iBtn) {
+            clearInterval(obj.iTimer);
+            fn && fn.call(obj);
+        }
+        
+    }, 30);
+}
+
+function css(obj, attr) {
+    if (obj.currentStyle) {
+        return obj.currentStyle[attr];
+    } else {
+        return getComputedStyle(obj, false)[attr];
+    }
+}
+
 /*分页模块，参考妙味课堂分页的写法，有点累赘，准备重构*/
 function page(opt){
     if(!opt.id){
@@ -388,6 +439,69 @@ var follow_module = (function(){
 
 })();
 
+/*轮播模块*/
+var slide_module = (function(){
+    
+    window.onload = function(){
+        var oDiv = document.querySelector('.m-banner');
+        var oUl = oDiv.getElementsByTagName('ul')[1];
+        var aLi = oUl.getElementsByTagName('li');
+        var aImg = oUl.getElementsByTagName('img');
+
+        var oBtn = document.querySelector('.m-banner .nav');
+        var aA = oBtn.getElementsByTagName('a');
+
+        var iNow = 0;
+        var Runing = true; //处于播放状态
+
+        for (var i = 0; i < aA.length; i++) {
+            aA[i].index = i;
+            aA[i].onclick = function(){
+                for (var i = 0; i < aA.length; i++) {
+                    aA[i].parentNode.className = '';
+                    aLi[i].className = '';
+                };
+                this.parentNode.className = 'selected';
+                aLi[this.index].className = 'show';
+                iNow = this.index;
+            }
+        };
+
+        var intervalId = setInterval(toRun,5000);
+
+        function toRun(){
+            if (iNow == aLi.length-1) {
+                iNow = 0;
+            }
+            else{
+                iNow++;
+            }
+
+            for (var i = 0; i < aA.length; i++) {
+                aA[i].parentNode.className = '';
+                aLi[i].className = '';
+            };
+
+            aA[iNow].parentNode.className = 'selected';
+            aLi[iNow].className = 'show';
+        }
+
+        oDiv.onmouseover = function(){
+            if(Runing){
+                clearInterval(intervalId);
+                Runing = false;   
+            }
+        };
+
+        oDiv.onmouseout = function(){
+            if(!Runing){
+                intervalId = setInterval(toRun,5000);
+                Runing = true;
+            }
+        };
+    }
+
+})();
 
 /*课程列表及分页模块*/
 var course_module = (function(){

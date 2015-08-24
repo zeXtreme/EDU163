@@ -216,9 +216,11 @@ body{
 
 .m-advertise .playbox {
     position: relative;
-    text-align: center;
+    padding: 0 21.5px;
 }
-
+.m-advertise .playbox img{
+    cursor: pointer;
+}
 .m-advertise .play {
     position: absolute;
     top: 50%;
@@ -681,4 +683,32 @@ body{
 
 .m-form .j-error{
     border: 1px solid #ff6666;
+}
+.m-video {
+    position: relative;
+    margin: 0 auto;
+    width: 890px;
+    height: 616px;
+    padding: 30px;
+    background-color: #fff;
+}
+
+.m-video .tt{
+    font-size: 18px;
+    color: #444444;
+}
+
+.m-video video{
+    margin-top: 22px;
+}
+
+.m-video .closed {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    width: 23px;
+    height: 22px;
+    text-indent: -9999px;
+    background: url(images/closed.png);
+    cursor: pointer;
 }

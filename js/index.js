@@ -551,6 +551,26 @@ var slide_module = (function(){
 
 })();
 
+/*视频模块*/
+var video_module = (function(){
+
+    var videoMask = document.querySelector(".j-video");
+    var videoPlay = document.querySelector(".j-play");
+    var closeVideo = document.querySelector(".m-video .closed");
+    var video = document.querySelector(".m-video video");
+
+    addClickEvent(videoPlay,function(event){
+        videoMask.style.display = 'block';
+        video.play();
+    });
+
+    addClickEvent(closeVideo,function(event){
+        videoMask.style.display = 'none';
+        video.pause();
+    });
+
+})();
+
 /*课程列表及分页模块*/
 var course_module = (function(){
 

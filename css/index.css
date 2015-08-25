@@ -47,6 +47,7 @@ body{
 }
 
 .u-cover {
+    position: relative;
     float: left;
     margin: 0 0 20px 20px;
     width: 225px;
@@ -56,6 +57,8 @@ body{
 
 .u-cover .wrap {
     display: block;
+    height: 228px;
+    overflow: hidden;
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
 }
 .u-cover .wrap:hover{
@@ -85,20 +88,17 @@ body{
 
 .u-cover .orgname {
     height: 13px;
-    padding: 5px;
+    padding: 6px;
     color: #999999;
 }
 
 .u-cover .num {
-    padding: 5px;
+    padding: 6px;
+    font-size: 12px;
+    color: #999;
 }
 
-.u-cover .hot {
-    display: block;
-    width: 40px;
-    height: 18px;
-    background: url(images/Group2Objects.png);
-}
+
 
 .u-cover .price {
     padding: 5px 6px;
@@ -711,4 +711,79 @@ body{
     text-indent: -9999px;
     background: url(images/closed.png);
     cursor: pointer;
+}
+
+.u-cover .wrap:hover {
+    position: absolute;
+    left: -11px;
+    top: -10px;
+    box-sizing: border-box;
+    width: 481px;
+    height: 238px;
+    z-index: 1;
+    padding: 11px 12px;
+    background-color: #fff;
+    box-shadow: 0px 0px 3px 0px rgba(12, 4, 8, 0.5);
+}
+.u-cover .wrap:hover .imgpic{
+    float: left;
+    margin-right: 15px;
+}
+.u-cover .wrap:hover .tt{
+    height: 18px;
+    font-size: 18px;
+}
+.u-cover .hot{
+    padding: 0 6px 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background: url(images/people.png) no-repeat;
+}
+.u-cover .wrap:hover .hot:after{
+    content: '人在学';
+}
+.u-cover .wrap:hover .orgname:before {
+    content: '发布者：';
+}
+.u-cover .wrap:hover .num {
+    position: absolute;
+    height: 17px;
+    padding: 0;
+    left: 255px;
+    top: 50px;
+    color: #666;
+}
+.u-cover .wrap:hover .hot {
+    border: none;
+}
+.u-cover .wrap:hover .orgname {
+    position: absolute;
+    left: 257px;
+    top: 74px;
+    padding: 0;
+    color: #666;
+}
+.u-cover .wrap:hover .kind {
+    position: absolute;
+    display: block;
+    bottom: 125px;
+    left: 257px;
+    font-size: 12px;
+    color: #666;
+}
+.u-cover .wrap:hover .price,.u-cover .disc,.u-cover .kind {
+    display: none;
+}
+.u-cover .wrap:hover .disc{
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    height: 83px;
+    line-height: 24px;
+    padding: 22px;
+    color: #666;
+    background-color: #f8f8f8;
 }

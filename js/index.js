@@ -593,7 +593,7 @@ var course_module = (function(){
                 mpager.innerHTML = '';
                 getPageNum(1);
             }
-            event.preventDefault();
+            preventDefault(event);
         }
     );
 
@@ -624,6 +624,7 @@ var course_module = (function(){
     //生成课程列表
     function drawCourse(response){
         var data = JSON.parse(response);
+        console.log(data);
         console.log('获取的页码：'+data.pagination.pageIndex);
         
         var boo = document.querySelectorAll('.u-cover');
@@ -639,13 +640,19 @@ var course_module = (function(){
             var imgpic = cloned.querySelector('.imgpic');
             var title = cloned.querySelector('.tt');
             var orgname = cloned.querySelector('.orgname');
+            var hot = cloned.querySelector('.hot');
             var pri = cloned.querySelector('.pri');
+            var kindname = cloned.querySelector('.kindname');
+            var disc = cloned.querySelector('.disc');
             
             imgpic.src = list[i].middlePhotoUrl;
             imgpic.alt = list[i].name;
             title.innerText = list[i].name;
             orgname.innerText = list[i].provider;
-            pri.innerText = '￥' + list[i].price + '.00';        
+            hot.innerText = list[i].learnerCount;
+            pri.innerText = '￥' + list[i].price + '.00'; 
+            kindname.innerText = list[i].categoryName;
+            disc.innerText = list[i].description;      
             templete.parentNode.appendChild(cloned);
         }
     }

@@ -23,7 +23,6 @@ a:hover{color:#39a030;}
 .f-cb:after{content:'.';display: block;clear: both;height: 0;overflow: hidden;visibility: hidden;}
 .f-cb{zoom:1;}
 
-/*@media screen and (min-width: 1205px){}*/
 html{
     cursor: default;
 }
@@ -803,4 +802,19 @@ body{
 }
 .m-products .product3{
     background: #fff url(images/product3.png) no-repeat 0 7px;
+}
+
+@media screen and (max-width: 1205px){
+    .g-header .m-header,.g-header .m-products,.g-flow{
+        width: 960px;
+    }
+    .g-header .u-product{
+        width: 171px;
+    }
+    .g-header .product1,.g-header .product2{
+        margin-right: 73px;
+    }
+    .g-footer .m-foot .u-into{
+        padding-left: 0;
+    }
 }

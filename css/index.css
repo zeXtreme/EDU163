@@ -221,20 +221,22 @@ body{
 .m-advertise .playbox img{
     cursor: pointer;
 }
+/*
 .m-advertise .play {
+    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
     margin-left: -20px;
     margin-top: -20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    border: 4px solid rgba(255,255,255,0.4);
-    cursor: pointer;
-    background: url(images/%E5%BD%A2%E7%8A%B6-55.png) no-repeat center center;
+    width: 50px;
+    height: 50px;
+    background: url(images/play.png) no-repeat center center;
 }
+.m-advertise .j-play:hover .play{
+    display: block;
+}
+*/
 
 .m-advertise .icon {
     width: 14px;
@@ -271,9 +273,12 @@ body{
 
 .m-toplit .num {
     margin: 10px 0 0 60px;
-    width: 53px;
     height: 17px;
-    background:url(images/abc.png) no-repeat;
+    line-height: 18px;
+    padding-left: 16px;
+    font-size: 12px;
+    color: #999;
+    background: url(images/people.png) no-repeat 0 1px;
 }
 
 .m-tips {
@@ -339,7 +344,6 @@ body{
     float: left;
     width: 239px;
     padding-left: 100px;
-    background: #fff url(images/round-4.png) no-repeat 0 7px;
 }
 
 .u-product .tt {
@@ -352,7 +356,7 @@ body{
     color: #666666;    
 }
 
-.f-mr1 {
+.product1,.product2 {
     margin-right: 84px;
 }
 
@@ -448,7 +452,7 @@ body{
 .u-into .logo {
     width: 234px;
     height: 22px;
-    background-color: #39a030
+    background: url(images/logo2.png) no-repeat;
 }
 
 .u-into .txt {
@@ -489,7 +493,7 @@ body{
     width: 234px;
     height: 22px;
     text-indent: -9999px;
-    background: #39a030;
+    background: url(images/logo1.png) no-repeat;
 }
 
 .m-header .follow {
@@ -546,10 +550,13 @@ body{
     top: 42px;
     right: 0;
     display: block;
-    width: 18px;
-    height: 18px;
+    width: 19px;
+    height: 19px;
     background: url(images/search.png) no-repeat center center;
     cursor: pointer;
+}
+.u-search:hover{
+    background: url(images/MergedLayers.png) no-repeat center center;
 }
 
 
@@ -563,6 +570,7 @@ body{
     background-color: #f8f8f8;
     font-family: SimSun;
     overflow: hidden;
+    border-radius: 2px;
 }
 
 .m-header .txt {
@@ -659,7 +667,7 @@ body{
     border: none;
     color: #fff;
     font-size: 16px;
-    background-color: #1aa43a;    
+    background: url(images/loginbtn.png);
 }
 
 .m-form .wrap{
@@ -782,8 +790,17 @@ body{
     bottom: 0;
     box-sizing: border-box;
     height: 83px;
-    line-height: 24px;
+    line-height: 27px;
     padding: 22px;
     color: #666;
     background-color: #f8f8f8;
+}
+.m-products .product1{
+    background: #fff url(images/product1.png) no-repeat 0 7px;    
+}
+.m-products .product2{
+    background: #fff url(images/product2.png) no-repeat 0 7px;
+}
+.m-products .product3{
+    background: #fff url(images/product3.png) no-repeat 0 7px;
 }

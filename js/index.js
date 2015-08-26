@@ -561,12 +561,13 @@ var video_module = (function(){
 
     addClickEvent(videoPlay,function(event){
         videoMask.style.display = 'block';
-        video.play();
     });
 
     addClickEvent(closeVideo,function(event){
         videoMask.style.display = 'none';
-        video.pause();
+        if (video && !video.paused) {
+            video.pause();
+        };
     });
 
 })();
@@ -684,10 +685,12 @@ var top_module = (function(){
             removeClass(cloned,'f-templete');
             var imgpic = cloned.querySelector('.imgpic');
             var title = cloned.querySelector('.tt');
+            var num = cloned.querySelector('.num');
             
             imgpic.src = list[i].smallPhotoUrl;
             imgpic.alt = list[i].name;
-            title.innerText = list[i].name;       
+            title.innerText = list[i].name;
+            num.innerText = list[i].learnerCount;       
             templete.parentNode.appendChild(cloned);
         }
 

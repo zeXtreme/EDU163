@@ -226,6 +226,6 @@
 
 ------
 
-使用此README以及代码请注明[出处][1]
+## 使用此README以及代码请注明[出处][1]
 
   [1]: https://github.com/Samciu/EDU163

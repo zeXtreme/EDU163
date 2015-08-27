@@ -206,11 +206,11 @@
 #### 1.2 兼容性要求
 
 > 要求能兼容以下浏览器（可以不考虑跨域问题）
->• Chrome 3+
-• Firefox 3.5+
-• Opera 12+
-• Safari 4+
-• Internet Explorer 8+
+>* Chrome 3+
+* Firefox 3.5+
+* Opera 12+
+* Safari 4+
+* Internet Explorer 8+
 
 #### 1.3 编码要求
 

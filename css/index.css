@@ -805,7 +805,7 @@ body{
 }
 
 @media screen and (max-width: 1205px){
-    .g-header .m-header,.g-header .m-products,.g-flow{
+    .g-content,.g-header .m-header,.g-header .m-products,.g-flow{
         width: 960px;
     }
     .g-header .u-product{

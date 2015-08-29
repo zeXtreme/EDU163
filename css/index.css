@@ -127,10 +127,10 @@ body{
     text-indent: -9999px;
 }
 .m-pager .prv{
-    background:#9dd8b1 url(images/a.png) no-repeat center;
+    background:#9dd8b1 url(../images/a.png) no-repeat center;
 }
 .m-pager .nxt{
-    background:#9dd8b1 url(images/b.png) no-repeat center;
+    background:#9dd8b1 url(../images/b.png) no-repeat center;
 }
 .m-pager a{
     float: left;
@@ -230,7 +230,7 @@ body{
     margin-top: -20px;
     width: 50px;
     height: 50px;
-    background: url(images/play.png) no-repeat center center;
+    background: url(../images/play.png) no-repeat center center;
 }
 .m-advertise .j-play:hover .play{
     display: block;
@@ -277,7 +277,7 @@ body{
     padding-left: 16px;
     font-size: 12px;
     color: #999;
-    background: url(images/people.png) no-repeat 0 1px;
+    background: url(../images/people.png) no-repeat 0 1px;
 }
 
 .m-tips {
@@ -315,7 +315,7 @@ body{
     right: 0;
     line-height: 36px;
     padding-left: 15px;
-    background: url(images/close.png) no-repeat 0 center;
+    background: url(../images/close.png) no-repeat 0 center;
     cursor: pointer;
 }
 
@@ -451,7 +451,7 @@ body{
 .u-into .logo {
     width: 234px;
     height: 22px;
-    background: url(images/logo2.png) no-repeat;
+    background: url(../images/logo2.png) no-repeat;
 }
 
 .u-into .txt {
@@ -492,7 +492,7 @@ body{
     width: 234px;
     height: 22px;
     text-indent: -9999px;
-    background: url(images/logo1.png) no-repeat;
+    background: url(../images/logo1.png) no-repeat;
 }
 
 .m-header .follow {
@@ -551,11 +551,11 @@ body{
     display: block;
     width: 19px;
     height: 19px;
-    background: url(images/search.png) no-repeat center center;
+    background: url(../images/search.png) no-repeat center center;
     cursor: pointer;
 }
 .u-search:hover{
-    background: url(images/MergedLayers.png) no-repeat center center;
+    background: url(../images/search2.png) no-repeat center center;
 }
 
 
@@ -603,7 +603,7 @@ body{
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(images/background.png);
+    background: url(../images/background.png);
     z-index: 10;
 }
 
@@ -666,7 +666,7 @@ body{
     border: none;
     color: #fff;
     font-size: 16px;
-    background: url(images/loginbtn.png);
+    background: url(../images/loginbtn.png);
 }
 
 .m-form .wrap{
@@ -684,7 +684,7 @@ body{
     width: 23px;
     height: 22px;
     text-indent: -9999px;
-    background: url(images/closed.png);
+    background: url(../images/closed.png);
     cursor: pointer;
 }
 
@@ -716,7 +716,7 @@ body{
     width: 23px;
     height: 22px;
     text-indent: -9999px;
-    background: url(images/closed.png);
+    background: url(../images/closed.png);
     cursor: pointer;
 }
 
@@ -744,7 +744,7 @@ body{
     padding: 0 6px 0 20px;
     border: 1px solid #ddd;
     border-radius: 3px;
-    background: url(images/people.png) no-repeat;
+    background: url(../images/people.png) no-repeat;
 }
 .u-cover .wrap:hover .hot:after{
     content: '人在学';
@@ -795,13 +795,13 @@ body{
     background-color: #f8f8f8;
 }
 .m-products .product1{
-    background: #fff url(images/product1.png) no-repeat 0 7px;    
+    background: #fff url(../images/product1.png) no-repeat 0 7px;    
 }
 .m-products .product2{
-    background: #fff url(images/product2.png) no-repeat 0 7px;
+    background: #fff url(../images/product2.png) no-repeat 0 7px;
 }
 .m-products .product3{
-    background: #fff url(images/product3.png) no-repeat 0 7px;
+    background: #fff url(../images/product3.png) no-repeat 0 7px;
 }
 
 @media screen and (max-width: 1205px){
@@ -817,4 +817,7 @@ body{
     .g-footer .m-foot .u-into{
         padding-left: 0;
     }
+}
+.u-links .weibo{
+    background: url(../images/weibo.png) no-repeat 42px;
 }

@@ -1,7 +1,8 @@
 # 作品展示
 
 不依赖任何框架、库实现的一个动态展示页面。
-* [点击查看项目展示](http://samciu.github.io/EDU163/)  
+* [点击查看项目展示](http://samciu.github.io/EDU163/)
+
 遇到的一些坑及总结
 * [点击查看](issues/1)
 

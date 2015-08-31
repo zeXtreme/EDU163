@@ -1,317 +1,4 @@
-//(function(){
-
-/*---------------------------------工具函数开始---------------------------------------------*/
-
-//innerText的FF兼容
-if (!('innerText' in document.body)) {
-  HTMLElement.prototype.__defineGetter__('innerText', function(){
-    return this.textContent;
-  });
-  HTMLElement.prototype.__defineSetter__('innerText', function(s) {
-    return this.textContent = s;
-  });
-}   
-
-// preventDefault兼容
-function preventDefault(event){
-    if(event.preventDefault){
-        event.preventDefault();
-    }else{    
-        event.returnValue = false;
-    }
-}
-
-//get请求函数封装
-function get(url,options,callback){
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-                callback(xhr.responseText);
-            } else {
-                console.error('Request was unsuccessful: ' + xhr.status);
-            }
-        };
-    }
-    if (!!options) {
-        var url = url + '?' + serialize(options);
-    };
-    xhr.open("get",url,true);
-    xhr.send(null);
-
-    function serialize(data){
-        if (!data) {
-            return "";
-        };
-        var pairs = [];
-        for (var name in data) {
-            if (!data.hasOwnProperty(name)) {
-                continue;
-            };
-            if (typeof data[name] === "function") {
-                continue;
-            };
-            var value = data[name].toString();
-            name = encodeURIComponent(name);
-            value = encodeURIComponent(value);
-            pairs.push(name + '=' + value);
-        };
-        return pairs.join("&");
-    }
-}
-    
-/*---------------------------------工具函数结束--------------------------------------------*/
-    
-/*---------------------------------模块函数开始--------------------------------------------*/
-
-/*获取cookie*/
-function getCookie() {
-    var cookie = {};
-    var all = document.cookie;
-    if (all === '') return cookie;
-    var list = all.split('; ');
-    for (var i = 0, len = list.length; i < len; i++) {
-        var item = list[i];
-        var p = item.indexOf('=');
-        var name = item.substring(0, p);
-        name = decodeURIComponent(name);
-        var value = item.substring(p + 1);
-        value = decodeURIComponent(value);
-        cookie[name] = value;
-    }
-    return cookie;
-}
-
-/*设置cookie*/
-function setCookie(name, value, expires, path, domain, secure) {
-    var cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
-    if (expires)
-        cookie += '; expires=' + expires.toGMTString();
-    if (path)
-        cookie += '; path=' + path;
-    if (domain)
-        cookie += '; domain=' + domain;
-    if (secure)
-        cookie += '; secure=' + secure;
-    document.cookie = cookie;
-}
-
-/*删除cookie*/
-function removeCookie(name, path, domain) {
-    console.log('name=' + name + '; path=' + path + '; domain=' + domain + '; max-age=0');
-    document.cookie = 'name=' + name + '; path=' + path + '; domain=' + domain + '; max-age=0';
-}
-
-/*运动模块，参考妙味课堂的写法*/
-function startMove(obj,json,times,fx,fn){
-    
-    if( typeof times == 'undefined' ){
-        times = 400;
-        fx = 'linear';
-    }
-    
-    if( typeof times == 'string' ){
-        if(typeof fx == 'function'){
-            fn = fx;
-        }
-        fx = times;
-        times = 400;
-    }
-    else if(typeof times == 'function'){
-        fn = times;
-        times = 400;
-        fx = 'linear';
-    }
-    else if(typeof times == 'number'){
-        if(typeof fx == 'function'){
-            fn = fx;
-            fx = 'linear';
-        }
-        else if(typeof fx == 'undefined'){
-            fx = 'linear';
-        }
-    }
-    
-    var iCur = {};
-    
-    for(var attr in json){
-        iCur[attr] = 0;
-        
-        if( attr == 'opacity' ){
-            iCur[attr] = Math.round(getStyle(obj,attr)*100);
-        }
-        else{
-            iCur[attr] = parseInt(getStyle(obj,attr));
-        }
-        
-    }
-    
-    var startTime = now();
-    
-    clearInterval(obj.timer);
-    
-    obj.timer = setInterval(function(){
-        
-        var changeTime = now();
-        
-        var t = times - Math.max(0,startTime - changeTime + times);  //0到2000
-        
-        for(var attr in json){
-            
-            var value = Tween[fx](t,iCur[attr],json[attr]-iCur[attr],times);
-            
-            if(attr == 'opacity'){
-                obj.style.opacity = value/100;
-                obj.style.filter = 'alpha(opacity='+value+')';
-            }
-            else{
-                obj.style[attr] = value + 'px';
-            }
-            
-        }
-        
-        if(t == times){
-            clearInterval(obj.timer);
-            if(fn){
-                fn.call(obj);
-            }
-        }
-        
-    },13);
-    
-    function getStyle(obj,attr){
-        if(obj.currentStyle){
-            return obj.currentStyle[attr];
-        }
-        else{
-            return getComputedStyle(obj,false)[attr];
-        }
-    }
-    
-    function now(){
-        return (new Date()).getTime();
-    }
-
-    // Tween算法
-    var Tween = {
-        linear: function (t, b, c, d){  //匀速
-            return c*t/d + b;
-        }
-    }
-    
-}
-
-/*分页模块，参考妙味课堂分页的写法，有点累赘，准备重构*/
-function page(opt){
-    if(!opt.id){
-        return false;
-    };
-    var obj = opt.id;
-    var nowNum = opt.nowNum || 1;
-    var childLength = opt.childLength;
-    var allNum = opt.allNum || childLength;
-    var callback = opt.callback || function(){};
-    // 可显示页数二分之一+1的位置
-    var point = Math.floor(childLength/2) + 1;
-    
-    //当前页不等于1时上一页可选
-    var oA = document.createElement('a');    
-    oA.innerText = '上一页';
-    oA.setAttribute('index',nowNum - 1);
-    if(nowNum != 1){
-        oA.className = 'prv';
-    }
-    else{
-        oA.className = 'prv f-dis';
-    }    
-    obj.appendChild(oA);
-    
-    //生成具体页数，总页数小于等于可显示页数的情况
-    if(allNum <= childLength){
-        for(var i=1; i <= allNum; i++){ 
-            var oA = document.createElement('a');
-            oA.setAttribute('index',i);
-            oA.className = 'pg';
-            oA.innerText = i;
-            if(nowNum == i){
-                addClass(oA,'selected');
-            }
-            obj.appendChild(oA);
-        }
-    }
-    //生成具体页数，总页数大于可显示页数的情况
-    else{
-        for(var i=1; i <= childLength; i++){
-            //当前页是小于一半+1的可显示页数
-            if(nowNum < point){
-                var oA = document.createElement('a');
-                oA.setAttribute('index',i);
-                oA.className = 'pg';
-                oA.innerText = i;
-                if(nowNum == i){
-                    addClass(oA,'selected');
-                }
-            }
-            //当前页是倒数第1或倒数第2
-            else if(allNum - nowNum <= point){
-                var oA = document.createElement('a');
-                oA.setAttribute('index',allNum - childLength +i);
-                oA.className = 'pg';
-                oA.innerText = allNum - childLength +i;
-                if(nowNum == allNum - childLength +i){
-                    addClass(oA,'selected');
-                }
-            }
-            //当前页在可显示页数一半+1的位置显示，例如可以显示8页，当前页就在第5个位置
-            else{
-                var oA = document.createElement('a');
-                oA.setAttribute('index',nowNum - point + i);
-                oA.className = 'pg';
-                oA.innerText = nowNum - point + i;
-                if(i == point){
-                    addClass(oA,'selected');
-                }
-            }            
-            obj.appendChild(oA);
-        }
-    }
-    //当前页不是最后一页时显示下一页
-    var oA = document.createElement('a');    
-    oA.innerText = '下一页';    
-    oA.setAttribute('index',nowNum + 1);
-    if(allNum != nowNum){
-        oA.className = 'nxt';
-    }
-    else{
-        oA.className = 'nxt f-dis';
-    }
-    obj.appendChild(oA);
-    
-    //用addevent会重复注册
-    var aA = obj.getElementsByTagName('a');
-    for(var i=0;i<aA.length;i++){
-        aA[i].onclick=function(){
-            if(nowNum != parseInt(this.getAttribute('index'))){
-                var nowNum = parseInt(this.getAttribute('index'));
-                obj.innerHTML = '';
-                page({
-                    id:opt.id,
-                    nowNum:nowNum,
-                    allNum:allNum,
-                    childLength:childLength,
-                    callback:callback
-                });
-                callback(nowNum,allNum);
-            }            
-            return false;
-        }
-    }
-    
-}
-
-/*---------------------------------模块函数结束--------------------------------------------*/
-    
-/*---------------------------------应用函数开始--------------------------------------------*/    
+(function(){
 
 /*小黄条模块*/
 var tips_module = (function(){
@@ -708,4 +395,200 @@ var top_module = (function(){
 
 })();
 
-// })();
+/*运动模块，参考妙味课堂的写法*/
+var startMove = (function(){
+    return function(obj,json,times,fx,fn){
+    
+        if( typeof times == 'undefined' ){
+            times = 400;
+            fx = 'linear';
+        }
+        
+        if( typeof times == 'string' ){
+            if(typeof fx == 'function'){
+                fn = fx;
+            }
+            fx = times;
+            times = 400;
+        }
+        else if(typeof times == 'function'){
+            fn = times;
+            times = 400;
+            fx = 'linear';
+        }
+        else if(typeof times == 'number'){
+            if(typeof fx == 'function'){
+                fn = fx;
+                fx = 'linear';
+            }
+            else if(typeof fx == 'undefined'){
+                fx = 'linear';
+            }
+        }
+        
+        var iCur = {};
+        
+        for(var attr in json){
+            iCur[attr] = 0;
+            
+            if( attr == 'opacity' ){
+                iCur[attr] = Math.round(getStyle(obj,attr)*100);
+            }
+            else{
+                iCur[attr] = parseInt(getStyle(obj,attr));
+            }
+            
+        }
+        
+        var startTime = now();
+        
+        clearInterval(obj.timer);
+        
+        obj.timer = setInterval(function(){
+            
+            var changeTime = now();
+            
+            var t = times - Math.max(0,startTime - changeTime + times);  //0到2000
+            
+            for(var attr in json){
+                
+                var value = Tween[fx](t,iCur[attr],json[attr]-iCur[attr],times);
+                
+                if(attr == 'opacity'){
+                    obj.style.opacity = value/100;
+                    obj.style.filter = 'alpha(opacity='+value+')';
+                }
+                else{
+                    obj.style[attr] = value + 'px';
+                }
+                
+            }
+            
+            if(t == times){
+                clearInterval(obj.timer);
+                if(fn){
+                    fn.call(obj);
+                }
+            }
+            
+        },13);
+        
+        function getStyle(obj,attr){
+            if(obj.currentStyle){
+                return obj.currentStyle[attr];
+            }
+            else{
+                return getComputedStyle(obj,false)[attr];
+            }
+        }
+        
+        function now(){
+            return (new Date()).getTime();
+        }
+
+        // Tween算法,jQuery使用的算法
+        var Tween = {
+            linear: function (t, b, c, d){  //匀速
+                return c*t/d + b;
+            }
+        }
+        
+    }
+})();
+
+/*分页模块，参考了妙味分页的写法，并且作了改进*/
+var page = (function(){
+    return function(opt){
+        if(!opt.id){
+            return false;
+        };
+        var obj = opt.id;
+        var nowNum = opt.nowNum || 1;
+        var childLength = opt.childLength;
+        var allNum = opt.allNum || childLength;
+        var callback = opt.callback || function(){};
+        // 可显示页数二分之一+1的位置
+        var point = Math.floor(childLength/2) + 1;
+        // 页数生成
+        var pageInit = function(i){
+            var oA = document.createElement('a');
+            oA.setAttribute('index',i);
+            oA.className = 'pg';
+            oA.innerText = i;
+            if(nowNum == i){
+                addClass(oA,'selected');
+            }
+            return oA;
+        }
+        //当前页不等于1时上一页可选
+        var oA = document.createElement('a');    
+        oA.innerText = '上一页';
+        oA.setAttribute('index',nowNum - 1);
+        if(nowNum != 1){
+            oA.className = 'prv';
+        }
+        else{
+            oA.className = 'prv f-dis';
+        }    
+        obj.appendChild(oA);
+        
+        //生成具体页数，总页数小于等于可显示页数的情况
+        if(allNum <= childLength){
+            for(var i=1; i <= allNum; i++){ 
+                var oA = pageInit(i);
+                obj.appendChild(oA);
+            }
+        }
+        //生成具体页数，总页数大于可显示页数的情况
+        else{
+            for(var i=1; i <= childLength; i++){
+                //当前页是小于一半+1的可显示页数
+                if(nowNum < point){
+                    var oA = pageInit(i);
+                }
+                //当前页是倒数第1或倒数第2
+                else if(allNum - nowNum <= point){
+                    var oA = pageInit(allNum - childLength +i);
+                }
+                //当前页在可显示页数一半+1的位置显示，例如可以显示8页，当前页就在第5个位置
+                else{
+                    var oA = pageInit(nowNum - point + i);
+                }            
+                obj.appendChild(oA);
+            }
+        }
+        //当前页不是最后一页时显示下一页
+        var oA = document.createElement('a');    
+        oA.innerText = '下一页';    
+        oA.setAttribute('index',nowNum + 1);
+        if(allNum != nowNum){
+            oA.className = 'nxt';
+        }
+        else{
+            oA.className = 'nxt f-dis';
+        }
+        obj.appendChild(oA);
+        
+        //用addevent会重复注册
+        var aA = obj.getElementsByTagName('a');
+        for(var i=0;i<aA.length;i++){
+            aA[i].onclick=function(){
+                if(nowNum != parseInt(this.getAttribute('index'))){
+                    var nowNum = parseInt(this.getAttribute('index'));
+                    obj.innerHTML = '';
+                    page({
+                        id:opt.id,
+                        nowNum:nowNum,
+                        allNum:allNum,
+                        childLength:childLength,
+                        callback:callback
+                    });
+                    callback(nowNum,allNum);
+                }            
+                return false;
+            }
+        }    
+    }
+})();
+
+})();

@@ -63,6 +63,29 @@ function addEnterEvent(element, listener) {
 }
 
 /**
+ * [innerText的FF兼容]
+ */
+if (!('innerText' in document.body)) {
+  HTMLElement.prototype.__defineGetter__('innerText', function(){
+    return this.textContent;
+  });
+  HTMLElement.prototype.__defineSetter__('innerText', function(s) {
+    return this.textContent = s;
+  });
+}   
+
+/**
+ * [preventDefault 对IE的兼容]
+ */
+function preventDefault(event){
+    if(event.preventDefault){
+        event.preventDefault();
+    }else{    
+        event.returnValue = false;
+    }
+}
+
+/**
  * 判断parent是否element的祖先节点
  * 
  * @param  {HTMLElement}
@@ -115,6 +138,108 @@ $.enter = function(selector, listener) {
 
 $.delegate = function(selector, tag, event, listener) {
     delegateEvent($(selector),tag,event,listener);
+}
+
+/**
+ * [get请求函数封装]
+ * @param  {String}   url      [请求地址]
+ * @param  {Object}   options  [请求的参数]
+ * @param  {Function} callback [回调函数]
+ */
+function get(url,options,callback){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                callback(xhr.responseText);
+            } else {
+                console.error('Request was unsuccessful: ' + xhr.status);
+            }
+        };
+    }
+    if (!!options) {
+        var url = url + '?' + serialize(options);
+    };
+    xhr.open("get",url,true);
+    xhr.send(null);
+
+    function serialize(data){
+        if (!data) {
+            return "";
+        };
+        var pairs = [];
+        for (var name in data) {
+            if (!data.hasOwnProperty(name)) {
+                continue;
+            };
+            if (typeof data[name] === "function") {
+                continue;
+            };
+            var value = data[name].toString();
+            name = encodeURIComponent(name);
+            value = encodeURIComponent(value);
+            pairs.push(name + '=' + value);
+        };
+        return pairs.join("&");
+    }
+}
+
+/**
+ * 以下是cookie操作
+ */
+
+/**
+ * [获取cookie]
+ * @return {[Object]} [返回一个cookie的对象，以cookie[name]的形式访问]
+ */
+function getCookie() {
+    var cookie = {};
+    var all = document.cookie;
+    if (all === '') return cookie;
+    var list = all.split('; ');
+    for (var i = 0, len = list.length; i < len; i++) {
+        var item = list[i];
+        var p = item.indexOf('=');
+        var name = item.substring(0, p);
+        name = decodeURIComponent(name);
+        var value = item.substring(p + 1);
+        value = decodeURIComponent(value);
+        cookie[name] = value;
+    }
+    return cookie;
+}
+
+/**
+ * [setCookie 设置cookie]
+ * @param {[String]} name
+ * @param {[String]} value
+ * @param {[String]} expires
+ * @param {[String]} path
+ * @param {[String]} domain
+ * @param {[String]} secure
+ */
+function setCookie(name, value, expires, path, domain, secure) {
+    var cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+    if (expires)
+        cookie += '; expires=' + expires.toGMTString();
+    if (path)
+        cookie += '; path=' + path;
+    if (domain)
+        cookie += '; domain=' + domain;
+    if (secure)
+        cookie += '; secure=' + secure;
+    document.cookie = cookie;
+}
+
+/**
+ * [removeCookie 删除cookie]
+ * @param  {[type]} name
+ * @param  {[type]} path
+ * @param  {[type]} domain
+ */
+function removeCookie(name, path, domain) {
+    console.log('name=' + name + '; path=' + path + '; domain=' + domain + '; max-age=0');
+    document.cookie = 'name=' + name + '; path=' + path + '; domain=' + domain + '; max-age=0';
 }
 
 /**

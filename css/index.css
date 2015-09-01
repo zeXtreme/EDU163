@@ -808,7 +808,7 @@ body{
 }
 
 .g-header,.g-pactures,.g-footer{
-    min-width: 960px;
+    min-width: 1205px;
 }
 @media screen and (max-width: 1205px){
     .g-content,.g-header .m-header,.g-header .m-products,.g-flow{
@@ -822,5 +822,8 @@ body{
     }
     .g-footer .m-foot .u-into{
         padding-left: 0;
+    }
+    .g-header,.g-pactures,.g-footer{
+        min-width: 960px;
     }
 }
